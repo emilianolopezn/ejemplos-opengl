@@ -19,3 +19,9 @@ Ejemplos de OpenGL y Python
 **Archivo:** limites_pantalla.py
 
 **Resumen:** Impide que el triangulo salga de los límites de la pantalla
+
+## Movimiento angular
+
+**Archivo:** movimiento_angular.py
+
+**Resumen:** Rota el triangulo con las flechas der e izq, y lo mueve hacia el ángulo que quedó apuntando con la tecla arriba
