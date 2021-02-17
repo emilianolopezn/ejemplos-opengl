@@ -8,15 +8,19 @@ yObstaculo = 0.6
 xCarrito = 0.0
 yCarrito = -0.8
 
+colisionando = False
 
-def chocando(x1, y1, w1, h1, x2, y2, w2, h2):
-    # w1 es la mitad del ancho del primer objeto
-    # h1 es la mitad del alto del primer objeto
-    # w2 es la mitad del ancho del segundo objeto
-    # h2 es la mitad del alto del segundo objeto
-    if x1 + w1 > x2 - w2 and x1 - w1 < x2 + w2 and y1 + h1 > y2 - h2 and y1 - h1 < y2 + h2:
-        return True
-    return False
+
+def checar_colisiones():
+    global colisionando
+    # Si extremaDerechaCarrito > extremaIzquierdaObstaculo
+    # Y extremaIzquierdaCarrito < extremaDerechaObstaculo
+    # Y extremoSuperiorCarrito > extremoInferiorObstaculo
+    # Y extremoInferiorCarrito < extremoSuperiorObstaculo
+    if xCarrito + 0.05 > xObstaculo - 0.15 and xCarrito - 0.05 < xObstaculo + 0.15 and yCarrito + 0.05 > yObstaculo - 0.15 and yCarrito - 0.05 < yObstaculo + 0.15:
+        colisionando = True
+    else:
+        colisionando = False
 
 
 def actualizar(window):
@@ -28,20 +32,18 @@ def actualizar(window):
     estadoAbajo = glfw.get_key(window, glfw.KEY_DOWN)
     estadoArriba = glfw.get_key(window, glfw.KEY_UP)
 
-    if estadoIzquierda == glfw.PRESS:
-        if not chocando(xCarrito-0.01, yCarrito, 0.05, 0.05, xObstaculo, yObstaculo, 0.15, 0.15):
-            xCarrito = xCarrito - 0.01
-    if estadoDerecha == glfw.PRESS:
-        if not chocando(xCarrito+0.01, yCarrito, 0.05, 0.05, xObstaculo, yObstaculo, 0.15, 0.15):
-            xCarrito = xCarrito + 0.01
-    if estadoAbajo == glfw.PRESS:
-        if not chocando(xCarrito, yCarrito - 0.01, 0.05, 0.05, xObstaculo, yObstaculo, 0.15, 0.15):
-            yCarrito = yCarrito - 0.01
-    if estadoArriba == glfw.PRESS:
-        if not chocando(xCarrito, yCarrito + 0.01, 0.05, 0.05, xObstaculo, yObstaculo, 0.15, 0.15):
-            yCarrito = yCarrito + 0.01
+    if estadoIzquierda == glfw.PRESS and xCarrito - 0.05 > -1:
+        xCarrito = xCarrito - 0.01
+    if estadoDerecha == glfw.PRESS and xCarrito + 0.05 < 1:
+        xCarrito = xCarrito + 0.01
+    if estadoAbajo == glfw.PRESS and yCarrito - 0.05 > -1:
+        yCarrito = yCarrito - 0.01
+    # Para arriba hay que considerar que el viewport también
+    # toma en cuenta la barra de titulo
+    if estadoArriba == glfw.PRESS and yCarrito + 0.05 + 0.1 < 1:
+        yCarrito = yCarrito + 0.01
 
-    # checar_colisiones()
+    checar_colisiones()
 
 
 def dibujarObstaculo():
@@ -61,12 +63,16 @@ def dibujarObstaculo():
 
 
 def dibujarCarrito():
+    global colisionando
     global xCarrito
     global yCarrito
     glPushMatrix()
     glTranslate(xCarrito, yCarrito, 0.0)
     glBegin(GL_TRIANGLES)
-    glColor3f(1.0, 0.0, 0.0)
+    if colisionando == True:
+        glColor3f(1.0, 1.0, 1.0)
+    else:
+        glColor3f(1.0, 0.0, 0.0)
     glVertex3f(0.0, 0.05, 0.0)
     glVertex3f(-0.05, -0.05, 0.0)
     glVertex3f(0.05, -0.05, 0.0)
