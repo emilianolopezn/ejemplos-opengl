@@ -25,3 +25,9 @@ Ejemplos de OpenGL y Python
 **Archivo:** movimiento_angular.py
 
 **Resumen:** Rota el triangulo con las flechas der e izq, y lo mueve hacia el ángulo que quedó apuntando con la tecla arriba
+
+## Movimiento constante
+
+**Archivo:** movimiento_constante.py
+
+**Resumen:** El triangulo se encuentra en constante movimiento, la dirección se controla con las flechas
