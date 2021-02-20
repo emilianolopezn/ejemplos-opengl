@@ -31,3 +31,9 @@ Ejemplos de OpenGL y Python
 **Archivo:** movimiento_constante.py
 
 **Resumen:** El triangulo se encuentra en constante movimiento, la dirección se controla con las flechas
+
+## Disparo
+
+**Archivo:** disparo.py
+
+**Resumen:** El triangulo le dispara al obstáculo y si la bala choca con el obstáculo, el obstáculo desaparece
